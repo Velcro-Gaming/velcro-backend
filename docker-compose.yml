@@ -1,0 +1,17 @@
+version: '2.4'
+
+services:
+
+    velcro:
+        build: ./app
+        container_name: velcro
+        image: velcro:v0.1
+        command: gunicorn engine.wsgi:application --bind 0.0.0.0:8100 --reload --log-file=- --access-logfile=- --log-level debug
+        ports:
+            - 8100:8100
+        env_file:
+            - ./docker.env
+        volumes:
+            - ./app/:/usr/src/velcro/
+            - ./static_cdn/static_root/:/usr/src/static_cdn/static_root/
+            - ./static_cdn/media_root/:/usr/src/static_cdn/media_root/
