@@ -111,14 +111,18 @@ class UserVerification(models.Model):
         return f"{self.user} - {self.status}"
     
 
-
 def user_pre_save_receiver(instance, *args, **kwargs):
     # Generate referral code
     if not instance.referral_code:
         instance.referral_code = unique_referral_code_generator(instance)
 
+
+pre_save.connect(user_pre_save_receiver, sender=User)
+
+
+def user_post_save_receiver(instance, *args, **kwargs):
     # Get or Create UserVerification object
     UserVerification.objects.get_or_create(user=instance)
         
 
-pre_save.connect(user_pre_save_receiver, sender=User)
+post_save.connect(user_post_save_receiver, sender=User)
