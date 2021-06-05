@@ -82,6 +82,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ExtraRegistrationSerializer(serializers.Serializer):
+    first_name = serializers.CharField(write_only=True)
+    last_name = serializers.CharField(write_only=True)
     console = serializers.CharField(write_only=True)
     referal_code = serializers.CharField(write_only=True, required=False)
     nin = serializers.CharField(write_only=True, required=False)

@@ -39,6 +39,13 @@ class UserExtraRegistrationView(views.APIView):
             validated_data = serializer.validated_data
             print("validated_data: ", validated_data)
 
+            first_name = validated_data.get("first_name", None)
+            last_name = validated_data.get("last_name", None)
+            if first_name or last_name:
+                user.first_name = first_name
+                user.last_name = last_name
+                user.save()
+
             console_id = validated_data.get("console", None)
             if console_id:
                 try:
